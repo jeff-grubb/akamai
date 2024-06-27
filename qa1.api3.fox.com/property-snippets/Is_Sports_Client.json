@@ -1,0 +1,46 @@
+{
+  "behaviors": [
+    {
+      "name": "setVariable",
+      "options": {
+        "transform": "NONE",
+        "valueSource": "EXPRESSION",
+        "variableName": "PMUSER_IS_SPORTS_CLIENT",
+        "variableValue": "true"
+      }
+    }
+  ],
+  "comments": "FOX News International API keys need to have last octet stripped out from true client ip",
+  "criteria": [
+    {
+      "name": "requestHeader",
+      "options": {
+        "headerName": "x-api-key",
+        "matchCaseSensitiveValue": true,
+        "matchOperator": "IS_ONE_OF",
+        "matchWildcardName": false,
+        "matchWildcardValue": false,
+        "values": [
+          "cf289e299efdfa39fb6316f259d1de93",
+          "eda9af5bafd4c87f55f0828b13b8a5d4",
+          "8169106b6c29aec0d693b948c5f6516f",
+          "1fd5bbbdc65daaaff2b400dbd7340499",
+          "1cf0cb1078adcfd50d5d079f06f73b10",
+          "5YDBGT0Qm4hgdy6ygx3z5bf7DxgSFcgl",
+          "wefzlsJHalzbAjkO37fnZ7aUkwiqT030",
+          "CHhbpefQXoi2lbM7sp86mZ3MmfZIFg51",
+          "11NNxmnTwya3ssk9PgwR61D231txrSMR",
+          "b430ae43fa302f61eaf2e9acb165c922",
+          "sk9PgwR61D231txrSMReHtyEqLdvvnUQ",
+          "d3dcaa6acd97ade812327945f2b3c91b",
+          "vKawWsXbqOLfqG9Vhgx4FpfFTa3TLzzF",
+          "dce5702c753711eda1eb0242ac120002",
+          "0f9667e2753811eda1eb0242ac120002"
+        ]
+      }
+    }
+  ],
+  "name": "Is Sports Client",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

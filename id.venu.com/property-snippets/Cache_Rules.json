@@ -1,0 +1,95 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "NO_STORE"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/user-preferences/*",
+              "/bookmarks/*",
+              "/locator/*",
+              "/stations/v1/nearby-stations*",
+              "/caniplay/v1/caniplay*",
+              "/cm-service/v1/check*"
+            ]
+          }
+        }
+      ],
+      "name": "No Cache",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "5m"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/schedule/*",
+              "/client-configuration/*"
+            ]
+          }
+        }
+      ],
+      "name": "5 Min TTL",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "10m"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/stations/*"
+            ]
+          }
+        }
+      ],
+      "name": "10 Min TTL",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "name": "Cache Rules",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

@@ -1,0 +1,119 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "constructResponse",
+          "options": {
+            "body": "\u003c!DOCTYPE html\u003e\n\u003chtml lang=en\u003e\u003c/html\u003e",
+            "enabled": true,
+            "forceEviction": false,
+            "ignorePurge": false,
+            "responseCode": 200
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestMethod",
+          "options": {
+            "matchOperator": "IS",
+            "value": "OPTIONS"
+          }
+        }
+      ],
+      "name": "Support OPTIONS",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": false,
+            "newHeaderValue": "*",
+            "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_ORIGIN"
+          }
+        },
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": false,
+            "newHeaderValue": "GET,POST,PUT,DELETE,PATCH",
+            "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_METHODS"
+          }
+        },
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": true,
+            "newHeaderValue": "origin, x-requested-with, accept, Content-Type, Authorization, Cookie, X-Api-Key, x-subscription-product, x-dcg-udid, x-dcg-publish-state, x-dcg-segment-id, x-dcg-iap-receipt, x-user-country-code, x-user-dma, X-Signature-Enabled, X-Delegated-Auth-Flow,X-Delegated-Auth-Flow-Off,X-Refresh-Token",
+            "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_HEADERS"
+          }
+        },
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": false,
+            "newHeaderValue": "true",
+            "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_CREDENTIALS"
+          }
+        },
+        {
+          "name": "modifyOutgoingResponseHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": false,
+            "newHeaderValue": "86400",
+            "standardModifyHeaderName": "ACCESS_CONTROL_MAX_AGE"
+          }
+        }
+      ],
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "MODIFY",
+                "avoidDuplicateHeaders": true,
+                "newHeaderValue": "origin, x-requested-with, accept, Content-Type, Authorization, Cookie, X-Api-Key, x-subscription-product, x-dcg-udid, x-dcg-publish-state, x-dcg-segment-id, x-dcg-iap-receipt, x-user-country-code, x-user-dma, x-dcg-capabilities",
+                "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_HEADERS"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "path",
+              "options": {
+                "matchCaseSensitive": false,
+                "matchOperator": "MATCHES_ONE_OF",
+                "normalize": false,
+                "values": [
+                  "/v2.0/liveplayer/*",
+                  "/v2.0/vodplayer/*",
+                  "/v2.0/watch"
+                ]
+              }
+            }
+          ],
+          "name": "liveplayer, vodplayer, watch CORS",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        }
+      ],
+      "comments": "x-user-country-code is for QA testing only",
+      "name": "Default CORS Policy",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "name": "CORS Support",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

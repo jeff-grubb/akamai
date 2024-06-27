@@ -1,0 +1,13 @@
+{
+  "behaviors": [
+    {
+      "name": "customBehavior",
+      "options": {
+        "behaviorId": "cbe_441315519"
+      }
+    }
+  ],
+  "name": "ThroughPut Tags",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

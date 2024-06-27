@@ -1,0 +1,111 @@
+{
+  "accountId": "act_F-AC-5013516",
+  "contractId": "ctr_V-4WBXKS2",
+  "groupId": "grp_247987",
+  "propertyId": "prp_1022700",
+  "propertyVersion": 5,
+  "etag": "4be97eebd22732263882d3b774fb75b72c08af64",
+  "ruleFormat": "latest",
+  "comments": "Disable tiered distribution",
+  "rules": {
+    "name": "default",
+    "behaviors": [
+      {
+        "name": "origin",
+        "options": {
+          "cacheKeyHostname": "ORIGIN_HOSTNAME",
+          "compress": true,
+          "customValidCnValues": [
+            "{{Origin Hostname}}",
+            "{{Forward Host Header}}"
+          ],
+          "enableTrueClientIp": true,
+          "forwardHostHeader": "ORIGIN_HOSTNAME",
+          "hostname": "d466z0d9u6.execute-api.us-east-1.amazonaws.com",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "ipVersion": "IPV4",
+          "minTlsVersion": "DYNAMIC",
+          "originCertificate": "",
+          "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+          "originSni": true,
+          "originType": "CUSTOMER",
+          "ports": "",
+          "standardCertificateAuthorities": [
+            "akamai-permissive",
+            "THIRD_PARTY_AMAZON"
+          ],
+          "trueClientIpClientSetting": false,
+          "trueClientIpHeader": "True-Client-IP",
+          "useUniqueCacheKey": false,
+          "verificationMode": "CUSTOM"
+        }
+      },
+      {
+        "name": "cpCode",
+        "options": {
+          "value": {
+            "cpCodeLimits": {
+              "currentCapacity": 97,
+              "limit": 100,
+              "limitType": "global"
+            },
+            "createdDate": 1707161136000,
+            "description": "id.getxosports.com",
+            "id": 1593678,
+            "name": "id.getxosports.com",
+            "products": [
+              "API_Accel"
+            ]
+          }
+        }
+      },
+      {
+        "name": "originCharacteristics",
+        "options": {
+          "authenticationMethod": "AUTOMATIC",
+          "authenticationMethodTitle": "",
+          "country": "NORTH_AMERICA",
+          "originLocationTitle": ""
+        }
+      },
+      {
+        "name": "allowPost",
+        "options": {
+          "allowWithoutContentLength": false,
+          "enabled": true
+        }
+      },
+      {
+        "name": "allowPut",
+        "options": {
+          "enabled": true
+        }
+      },
+      {
+        "name": "allowPatch",
+        "options": {
+          "enabled": true
+        }
+      },
+      {
+        "name": "allowDelete",
+        "options": {
+          "allowBody": false,
+          "enabled": true
+        }
+      }
+    ],
+    "children": [
+      "#include:Dev_Origin.json",
+      "#include:Stage_Origin.json",
+      "#include:APIGW_Stage_to_origin__Temp_.json",
+      "#include:DataStream_Logging.json",
+      "#include:Performance.json",
+      "#include:Offload.json",
+      "#include:Throughput_Tags.json"
+    ],
+    "comments": "The behaviors in the Default Rule apply to all requests for the property hostname(s) unless another rule overrides the Default Rule settings.",
+    "options": {}
+  }
+}

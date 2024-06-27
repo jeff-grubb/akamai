@@ -1,0 +1,36 @@
+{
+  "behaviors": [
+    {
+      "name": "caching",
+      "options": {
+        "behavior": "NO_STORE"
+      }
+    },
+    {
+      "name": "modifyOutgoingResponseHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": true,
+        "newHeaderValue": "no-cache, no-store, private, must-revalidate, max-age=0, max-stale=0, post-check=0, pre-check=0",
+        "standardModifyHeaderName": "CACHE_CONTROL"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "name": "matchVariable",
+      "options": {
+        "matchCaseSensitive": true,
+        "matchOperator": "IS_ONE_OF",
+        "matchWildcard": false,
+        "variableName": "PMUSER_DISABLE_CACHE",
+        "variableValues": [
+          "true"
+        ]
+      }
+    }
+  ],
+  "name": "Disable API Cache",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

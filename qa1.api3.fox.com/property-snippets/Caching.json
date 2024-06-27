@@ -1,0 +1,427 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "30s"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "geoLatitude",
+              "geoLongitude"
+            ],
+            "optional": true,
+            "rule": "EXCLUDE_QUERY_PARAMS"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "apikey",
+              "x-api-key",
+              "x-user-dma",
+              "x-dcg-user-dma"
+            ],
+            "includeValue": true,
+            "optional": true,
+            "rule": "INCLUDE_HEADERS"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/v2.0/assetinfo/*"
+            ]
+          }
+        }
+      ],
+      "name": "/v2.0/assetinfo",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "2m"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "geoLatitude",
+              "geoLongitude"
+            ],
+            "optional": true,
+            "rule": "EXCLUDE_QUERY_PARAMS"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "x-api-key",
+              "apikey"
+            ],
+            "includeValue": true,
+            "optional": true,
+            "rule": "INCLUDE_HEADERS"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/v2.0/mvpds*"
+            ]
+          }
+        }
+      ],
+      "name": "/v2.0/mvpds",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "5m"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "geoLatitude",
+              "geoLongitude",
+              "dma"
+            ],
+            "optional": true,
+            "rule": "EXCLUDE_QUERY_PARAMS"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "x-api-key",
+              "apikey"
+            ],
+            "includeValue": true,
+            "optional": true,
+            "rule": "INCLUDE_HEADERS"
+          }
+        },
+        {
+          "name": "cacheError",
+          "options": {
+            "enabled": true,
+            "preserveStale": true,
+            "ttl": "5s"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/v2.0/vodplayer/sportsclip/*"
+            ]
+          }
+        }
+      ],
+      "name": "/v2.0/sportsclips",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "modifyOutgoingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": true,
+            "customHeaderName": "Authorization",
+            "newHeaderValue": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlE1QVdrc1dIVmEiLCJ0eXAiOiJKV1QifQ.eyJwaWQiOiJ3ZWI3ZDFjMTNlYi1iZGRmLTUzYmYtNmJjYi1iYmI0ODUyNzg0ZGEiLCJ1aWQiOiJkMlZpTjJReFl6RXpaV0l0WW1Sa1ppMDFNMkptTFRaaVkySXRZbUppTkRnMU1qYzROR1JoIiwic2lkIjoiMDZkMmIyZjYtMDY5YS00MmUxLWIxNGItYTdiNzUxNmVjYTVjIiwic2RjIjoidXMtd2VzdC0yIiwiYXR5cGUiOiJhbm9ueW1vdXMiLCJkdHlwZSI6IndlYiIsInV0eXBlIjoiZGV2aWNlSWQiLCJkaWQiOiJlNmY0YWU4OS0yYzIwLWY5NzQtZTkzNy05MjFmN2RlOTkzMGUiLCJtdnBkaWQiOiJmb3hfZW1wbG95ZWVfYXV0aCIsInZlciI6MiwiZW50Ijp7Im12cGQiOiJ2MToyZjE5YjY2Yi1kNWVhLTRhYjEtOTk2Yy0zZmRjOGI1ZGU4YTgifSwiZXhwIjoxNzE0ODQ0NTY5LCJqdGkiOiI0MzFmYjE0Mi03MzNlLTQwNmQtYjY1Mi1lMjk4MTJhMzliZDQiLCJpYXQiOjE2ODMzMDg1Njl9.oZ9kGJm2bd9IIka0Ik6snydlQ_h44cPsORQD72FyigmEdGGhj-bs_5HKr4RFr5REqQxEf6C_M6VrvcBQGnCGsdlFe6fqvgkn4thkdxt3BWRje4PADH-RHdyb-we1tNT0gvobAjdQunDEq4nl7DAMwkNr77qLs0KN1PoF4ZC6DUzjHgtmjE7Newsnwr5rOktP4Sr_K177WNFcX_0_hASf7_eHGjMpCwY1K50OnYc-kYh96svwg3facI_ifw3iWiVFNh8drPt1ffks7VFfH-w6qH7IjB7YKqsUmNC2bziXbJKHQESB_JPJG7MXdP2X1PVux_yzE4KgebbZRARzeLnWHQ",
+            "standardModifyHeaderName": "OTHER"
+          }
+        }
+      ],
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "caching",
+              "options": {
+                "behavior": "MAX_AGE",
+                "mustRevalidate": false,
+                "ttl": "5m"
+              }
+            },
+            {
+              "name": "cacheId",
+              "options": {
+                "elements": [
+                  "geoLatitude",
+                  "geoLongitude"
+                ],
+                "optional": true,
+                "rule": "EXCLUDE_QUERY_PARAMS"
+              }
+            },
+            {
+              "name": "cacheId",
+              "options": {
+                "elements": [
+                  "x-api-key",
+                  "apikey"
+                ],
+                "includeValue": true,
+                "optional": true,
+                "rule": "INCLUDE_HEADERS"
+              }
+            },
+            {
+              "name": "cacheError",
+              "options": {
+                "enabled": true,
+                "preserveStale": true,
+                "ttl": "5s"
+              }
+            }
+          ],
+          "name": "Caching",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/v2.0/screenpanels*",
+              "/v2.0/screens/*"
+            ]
+          }
+        },
+        {
+          "name": "matchVariable",
+          "options": {
+            "matchCaseSensitive": true,
+            "matchOperator": "IS_ONE_OF",
+            "matchWildcard": false,
+            "variableName": "PMUSER_IS_SPORTS_CLIENT",
+            "variableValues": [
+              "true"
+            ]
+          }
+        }
+      ],
+      "name": "/v2.0/screens \u0026 /v2.0/screenpanels",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "modifyOutgoingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": true,
+            "customHeaderName": "Authorization",
+            "newHeaderValue": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlE1QVdrc1dIVmEiLCJ0eXAiOiJKV1QifQ.eyJwaWQiOiJ3ZWI3ZDFjMTNlYi1iZGRmLTUzYmYtNmJjYi1iYmI0ODUyNzg0ZGEiLCJ1aWQiOiJkMlZpTjJReFl6RXpaV0l0WW1Sa1ppMDFNMkptTFRaaVkySXRZbUppTkRnMU1qYzROR1JoIiwic2lkIjoiMDZkMmIyZjYtMDY5YS00MmUxLWIxNGItYTdiNzUxNmVjYTVjIiwic2RjIjoidXMtd2VzdC0yIiwiYXR5cGUiOiJhbm9ueW1vdXMiLCJkdHlwZSI6IndlYiIsInV0eXBlIjoiZGV2aWNlSWQiLCJkaWQiOiJlNmY0YWU4OS0yYzIwLWY5NzQtZTkzNy05MjFmN2RlOTkzMGUiLCJtdnBkaWQiOiJmb3hfZW1wbG95ZWVfYXV0aCIsInZlciI6MiwiZW50Ijp7Im12cGQiOiJ2MToyZjE5YjY2Yi1kNWVhLTRhYjEtOTk2Yy0zZmRjOGI1ZGU4YTgifSwiZXhwIjoxNzE0ODQ0NTY5LCJqdGkiOiI0MzFmYjE0Mi03MzNlLTQwNmQtYjY1Mi1lMjk4MTJhMzliZDQiLCJpYXQiOjE2ODMzMDg1Njl9.oZ9kGJm2bd9IIka0Ik6snydlQ_h44cPsORQD72FyigmEdGGhj-bs_5HKr4RFr5REqQxEf6C_M6VrvcBQGnCGsdlFe6fqvgkn4thkdxt3BWRje4PADH-RHdyb-we1tNT0gvobAjdQunDEq4nl7DAMwkNr77qLs0KN1PoF4ZC6DUzjHgtmjE7Newsnwr5rOktP4Sr_K177WNFcX_0_hASf7_eHGjMpCwY1K50OnYc-kYh96svwg3facI_ifw3iWiVFNh8drPt1ffks7VFfH-w6qH7IjB7YKqsUmNC2bziXbJKHQESB_JPJG7MXdP2X1PVux_yzE4KgebbZRARzeLnWHQ",
+            "standardModifyHeaderName": "OTHER"
+          }
+        }
+      ],
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "caching",
+              "options": {
+                "behavior": "MAX_AGE",
+                "mustRevalidate": false,
+                "ttl": "5m"
+              }
+            },
+            {
+              "name": "cacheId",
+              "options": {
+                "elements": [
+                  "geoLatitude",
+                  "geoLongitude"
+                ],
+                "optional": true,
+                "rule": "EXCLUDE_QUERY_PARAMS"
+              }
+            },
+            {
+              "name": "cacheId",
+              "options": {
+                "elements": [
+                  "x-api-key",
+                  "apikey"
+                ],
+                "includeValue": true,
+                "optional": true,
+                "rule": "INCLUDE_HEADERS"
+              }
+            },
+            {
+              "name": "cacheError",
+              "options": {
+                "enabled": true,
+                "preserveStale": true,
+                "ttl": "5s"
+              }
+            }
+          ],
+          "name": "Caching",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/v2.0/epglistings*"
+            ]
+          }
+        }
+      ],
+      "name": "/v2.0/epglistings",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "MAX_AGE",
+            "mustRevalidate": false,
+            "ttl": "5m"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "geoLatitude",
+              "geoLongitude"
+            ],
+            "optional": true,
+            "rule": "EXCLUDE_QUERY_PARAMS"
+          }
+        },
+        {
+          "name": "cacheId",
+          "options": {
+            "elements": [
+              "x-api-key"
+            ],
+            "includeValue": true,
+            "optional": true,
+            "rule": "INCLUDE_HEADERS"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/v2.0/video/*"
+            ]
+          }
+        },
+        {
+          "name": "matchVariable",
+          "options": {
+            "matchCaseSensitive": true,
+            "matchOperator": "IS_ONE_OF",
+            "matchWildcard": false,
+            "variableName": "PMUSER_IS_SPORTS_CLIENT",
+            "variableValues": [
+              "true"
+            ]
+          }
+        }
+      ],
+      "name": "/v2.0/video",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "caching",
+          "options": {
+            "behavior": "BYPASS_CACHE"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "clientIp",
+          "options": {
+            "matchOperator": "IS_ONE_OF",
+            "useHeaders": false,
+            "values": [
+              "216.205.249.13"
+            ]
+          }
+        }
+      ],
+      "name": "Bypass Cache IP List",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "name": "Caching",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

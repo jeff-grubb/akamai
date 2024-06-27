@@ -1,0 +1,49 @@
+{
+  "behaviors": [
+    {
+      "name": "origin",
+      "options": {
+        "cacheKeyHostname": "ORIGIN_HOSTNAME",
+        "compress": true,
+        "customForwardHostHeader": "stage-id.raptor.fox",
+        "customValidCnValues": [
+          "{{Origin Hostname}}",
+          "{{Forward Host Header}}"
+        ],
+        "enableTrueClientIp": true,
+        "forwardHostHeader": "CUSTOM",
+        "hostname": "d-s3upt0rqn0.execute-api.us-east-1.amazonaws.com",
+        "httpPort": 80,
+        "httpsPort": 443,
+        "ipVersion": "IPV4",
+        "minTlsVersion": "DYNAMIC",
+        "originCertificate": "",
+        "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+        "originSni": true,
+        "originType": "CUSTOMER",
+        "ports": "",
+        "standardCertificateAuthorities": [
+          "akamai-permissive",
+          "THIRD_PARTY_AMAZON"
+        ],
+        "trueClientIpClientSetting": false,
+        "trueClientIpHeader": "True-Client-IP",
+        "verificationMode": "CUSTOM"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "name": "hostname",
+      "options": {
+        "matchOperator": "IS_ONE_OF",
+        "values": [
+          "stage-id.venu.com"
+        ]
+      }
+    }
+  ],
+  "name": "Stage Origin",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

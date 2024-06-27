@@ -1,0 +1,88 @@
+{
+  "behaviors": [
+    {
+      "name": "setVariable",
+      "options": {
+        "transform": "NONE",
+        "valueSource": "EXPRESSION",
+        "variableName": "PMUSER_DMA_SET",
+        "variableValue": "false"
+      }
+    }
+  ],
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "constructResponse",
+          "options": {
+            "body": "Not found",
+            "enabled": true,
+            "forceEviction": false,
+            "ignorePurge": false,
+            "responseCode": 404
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "DOES_NOT_MATCH_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/confirm",
+              "/v2.0/oauth2/magiclink/confirm"
+            ]
+          }
+        }
+      ],
+      "name": "Path Restriction",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "rewriteUrl",
+          "options": {
+            "behavior": "PREPEND",
+            "keepQueryString": true,
+            "targetPathPrepend": "/v2.0/oauth2/magiclink/"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "/confim"
+            ]
+          }
+        }
+      ],
+      "name": "Origin path for /confirm",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "criteria": [
+    {
+      "name": "hostname",
+      "options": {
+        "matchOperator": "IS_ONE_OF",
+        "values": [
+          "qa-ml.fox.com"
+        ]
+      }
+    }
+  ],
+  "name": "qa-ml.fox.com Rules",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

@@ -1,0 +1,62 @@
+{
+  "behaviors": [
+    {
+      "name": "setVariable",
+      "options": {
+        "extractLocation": "EDGESCAPE",
+        "locationId": "ZIP",
+        "transform": "NONE",
+        "valueSource": "EXTRACT",
+        "variableName": "PMUSER_X_USER_ZIP"
+      }
+    },
+    {
+      "name": "modifyIncomingRequestHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": false,
+        "customHeaderName": "x-user-zip",
+        "newHeaderValue": "{{user.PMUSER_X_USER_ZIP}}",
+        "standardModifyHeaderName": "OTHER"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "name": "requestHeader",
+      "options": {
+        "headerName": "x-user-zip",
+        "matchOperator": "DOES_NOT_EXIST",
+        "matchWildcardName": false
+      }
+    },
+    {
+      "name": "userLocation",
+      "options": {
+        "checkIps": "BOTH",
+        "countryValues": [
+          "US"
+        ],
+        "field": "COUNTRY",
+        "matchOperator": "IS_ONE_OF",
+        "useOnlyFirstXForwardedForIp": false
+      }
+    },
+    {
+      "name": "path",
+      "options": {
+        "matchCaseSensitive": false,
+        "matchOperator": "MATCHES_ONE_OF",
+        "normalize": false,
+        "values": [
+          "/v2.0/watch*",
+          "/v2.0/liveplayer*",
+          "/v2.0/vodplayer*"
+        ]
+      }
+    }
+  ],
+  "name": "x-user-zip",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

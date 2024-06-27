@@ -1,0 +1,132 @@
+{
+  "accountId": "act_F-AC-5013516",
+  "contractId": "ctr_V-4WBXKS2",
+  "groupId": "grp_247987",
+  "propertyId": "prp_1054141",
+  "propertyVersion": 7,
+  "etag": "3f131c731d80e4fc7cd3173aa97cf56219b1d2b0",
+  "ruleFormat": "latest",
+  "comments": "Fixing Access-Control-Allow-Methods header response",
+  "rules": {
+    "name": "default",
+    "behaviors": [
+      {
+        "name": "origin",
+        "options": {
+          "cacheKeyHostname": "REQUEST_HOST_HEADER",
+          "compress": true,
+          "customForwardHostHeader": "id.raptor.fox",
+          "customValidCnValues": [
+            "{{Origin Hostname}}",
+            "{{Forward Host Header}}"
+          ],
+          "enableTrueClientIp": true,
+          "forwardHostHeader": "CUSTOM",
+          "hostname": "d-x3iok4yx3g.execute-api.us-east-1.amazonaws.com",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "ipVersion": "IPV4",
+          "minTlsVersion": "DYNAMIC",
+          "originCertificate": "",
+          "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+          "originSni": true,
+          "originType": "CUSTOMER",
+          "ports": "",
+          "standardCertificateAuthorities": [
+            "akamai-permissive"
+          ],
+          "tlsVersionTitle": "",
+          "trueClientIpClientSetting": false,
+          "trueClientIpHeader": "True-Client-IP",
+          "verificationMode": "CUSTOM"
+        }
+      },
+      {
+        "name": "cpCode",
+        "options": {
+          "value": {
+            "cpCodeLimits": {
+              "currentCapacity": 84,
+              "limit": 100,
+              "limitType": "global"
+            },
+            "createdDate": 1715191264000,
+            "description": "id.venu.com",
+            "id": 1635704,
+            "name": "id.venu.com",
+            "products": [
+              "API_Accel"
+            ]
+          }
+        }
+      },
+      {
+        "name": "autoDomainValidation",
+        "options": {
+          "autodv": ""
+        }
+      },
+      {
+        "name": "globalRequestNumber",
+        "options": {
+          "headerName": "Akamai-GRN",
+          "outputOption": "RESPONSE_HEADER"
+        }
+      },
+      {
+        "name": "breadcrumbs",
+        "options": {
+          "enabled": true,
+          "loggingEnabled": false,
+          "optMode": false
+        }
+      },
+      {
+        "name": "returnCacheStatus",
+        "options": {
+          "responseHeaderName": "Akamai-Cache-Status"
+        }
+      },
+      {
+        "name": "originIpAcl",
+        "options": {
+          "enable": true
+        }
+      }
+    ],
+    "children": [
+      "#include:Dev_Origin.json",
+      "#include:Stage_Origin.json",
+      "#include:Accelerate_delivery.json",
+      "#include:Offload_origin.json",
+      "#include:Strengthen_security.json",
+      "#include:Minimize_payload.json",
+      "#include:DataStream.json",
+      "#include:Cache_Rules.json",
+      "#include:Disable_API_Cache.json",
+      "#include:ThroughPut_Tags.json",
+      "#include:SR4P___Maprule_report.json",
+      "#include:Buffer_Response_Tags.json",
+      "#include:CORS.json",
+      "#include:Redirect_to_HTTPS.json"
+    ],
+    "comments": "The Default Rule template contains all the necessary and recommended behaviors. Rules are evaluated from top to bottom and the last matching rule wins.",
+    "variables": [
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_HOST",
+        "sensitive": false,
+        "value": "id.venu.com.edgesuite.net"
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_DISABLE_CACHE",
+        "sensitive": false,
+        "value": "true"
+      }
+    ],
+    "options": {}
+  }
+}

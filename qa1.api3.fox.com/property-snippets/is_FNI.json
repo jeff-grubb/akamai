@@ -1,0 +1,75 @@
+{
+  "behaviors": [
+    {
+      "name": "setVariable",
+      "options": {
+        "transform": "NONE",
+        "valueSource": "EXPRESSION",
+        "variableName": "PMUSER_IS_FNI",
+        "variableValue": "true"
+      }
+    }
+  ],
+  "comments": "FOX News International API keys need to have last octet stripped out from true client ip",
+  "criteria": [
+    {
+      "name": "requestHeader",
+      "options": {
+        "headerName": "x-api-key",
+        "matchCaseSensitiveValue": true,
+        "matchOperator": "IS_ONE_OF",
+        "matchWildcardName": false,
+        "matchWildcardValue": false,
+        "values": [
+          "PZ7FJ9YAURY4Sx5D9BB5rw3ARYjvp4nc",
+          "f7e60ccdfdcc639ca54461b10926f5ee",
+          "098faebad42f520149069b462c21989d",
+          "54eb12f76ac67ccb3d607993e96a87f3",
+          "LxFfnAD8Dd3HxMS22A8PzfMTTzRew5uC",
+          "c8aca08411fd33c2354db8efc9eb30cf",
+          "3a6df3be9f71edeeb1343a14ca31ece0",
+          "5Kqkb9pV7dX3U9trAx7eMrHvzLGER2FW",
+          "w59Ddk5RWdLbamp6nEfsv27pVUFBtWDW",
+          "50440fda195699620e0524c47f68a2e4",
+          "5f1229223475c9f97d88054705b1d34b",
+          "bae90d487a1217607be0201b19808f54",
+          "879f960f60dd06f5d1c38f99ea8cf95e",
+          "5342942dddb05420d76a4020ccfa40ee",
+          "6e1e7f779f1fef681771f0fbada73f29",
+          "dfadff8178993a24eb48013f8732b412",
+          "705fafbd2e881e5c5f9f3c5e36f2a321",
+          "e9ca39e56fda2f3c9df4f9a5bacb8c5e",
+          "def4122ec571e44cef23bcbce0f70a13",
+          "2e197d91bc83558b7e5c9755e66f7e8f",
+          "2578c423e5637269b8eb028db99c6185",
+          "09b719631e0cbb29dc2fc4abb33b7aa4",
+          "f5d1660deaabd0e057383586b7163d3b",
+          "1085c830af57339dca908ea0f35571a8",
+          "be297e89316a6c8efd4b42897a73c34c",
+          "01b60f65c795735e453ac825b151ac2d",
+          "727fc9a81ce0b09819603abdde213f21",
+          "7728f3c20ca32f843c3bed7e0508ed26",
+          "nSMgjn7beSX4VuNbXfstARB7zScBW2kb",
+          "8eba1d435d9601ed17d3eace02764925",
+          "ALELMfzeuQWtzBr7FTaqPcNmkQzeGGrW",
+          "3201eace153787318b89fb8ea3716fbe",
+          "a45b2e4c85d23e1badef19321a56b6ec",
+          "syFKuu3U62cQRux88FdCkAU7hSqpU5zr",
+          "ff936ee262dd3c1dd280c7be774cc938",
+          "rPfbt6FuvW2swTvTFINzsuaDINunwaFy",
+          "GzjMhJZwr89YgapuzIb9Zf8AuFHfreS8",
+          "nU8sGUe2Qi6LgpoOm6t2TRdNCmzJZBCx",
+          "SpU0JMvDE8qrEWHP7LoCGpXvclKVOEX1",
+          "QZwoxstLzoF1AihKfHQ2YHieRvvqnTQ8",
+          "haaLFKy2YghcGPmLNlhjG5kxD12rlqEt",
+          "x7ADHxQLo3zukkriEGV5046er5gnlvXH",
+          "YMLBzqVm9xine5EigE1jNAfhZBQaWzuR",
+          "slMPNd0vxAAyzM2NJeaKCVXplvWgkI30"
+        ]
+      }
+    }
+  ],
+  "name": "is FNI",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

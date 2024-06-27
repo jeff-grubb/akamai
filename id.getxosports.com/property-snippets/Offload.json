@@ -1,0 +1,64 @@
+{
+  "behaviors": [
+    {
+      "name": "caching",
+      "options": {
+        "behavior": "NO_STORE"
+      }
+    },
+    {
+      "name": "cacheError",
+      "options": {
+        "enabled": false
+      }
+    },
+    {
+      "name": "downstreamCache",
+      "options": {
+        "behavior": "BUST"
+      }
+    },
+    {
+      "name": "removeVary",
+      "options": {
+        "enabled": true
+      }
+    },
+    {
+      "name": "modifyViaHeader",
+      "options": {
+        "enabled": true,
+        "modificationOption": "REMOVE_HEADER"
+      }
+    }
+  ],
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "TUNNEL_ORIGIN"
+          }
+        }
+      ],
+      "comments": "Overrides the default downstream caching behavior for uncacheable object types. Instructs the edge server to pass Cache-Control and/or Expire headers from the origin to the client.",
+      "criteria": [
+        {
+          "name": "cacheability",
+          "options": {
+            "matchOperator": "IS_NOT",
+            "value": "CACHEABLE"
+          }
+        }
+      ],
+      "name": "Uncacheable Responses",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Controls caching, which offloads traffic away from the origin. Most objects types are not cached. However, the child rules override this behavior for certain subsets of requests.",
+  "name": "Offload",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

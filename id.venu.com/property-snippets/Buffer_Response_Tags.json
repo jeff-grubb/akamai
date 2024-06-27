@@ -1,0 +1,13 @@
+{
+  "behaviors": [
+    {
+      "name": "customBehavior",
+      "options": {
+        "behaviorId": "cbe_448210204"
+      }
+    }
+  ],
+  "name": "Buffer Response Tags",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

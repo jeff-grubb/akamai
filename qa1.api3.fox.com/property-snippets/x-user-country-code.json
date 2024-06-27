@@ -1,0 +1,37 @@
+{
+  "behaviors": [
+    {
+      "name": "setVariable",
+      "options": {
+        "extractLocation": "EDGESCAPE",
+        "locationId": "COUNTRY_CODE",
+        "transform": "NONE",
+        "valueSource": "EXTRACT",
+        "variableName": "PMUSER_X_USER_COUNTRY_CODE"
+      }
+    },
+    {
+      "name": "modifyOutgoingRequestHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": false,
+        "customHeaderName": "x-user-country-code",
+        "newHeaderValue": "{{user.PMUSER_X_USER_COUNTRY_CODE}}",
+        "standardModifyHeaderName": "OTHER"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "name": "requestHeader",
+      "options": {
+        "headerName": "x-user-country-code",
+        "matchOperator": "DOES_NOT_EXIST",
+        "matchWildcardName": false
+      }
+    }
+  ],
+  "name": "x-user-country-code",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

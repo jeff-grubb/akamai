@@ -1,0 +1,52 @@
+{
+  "behaviors": [
+    {
+      "name": "modifyOutgoingResponseHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": true,
+        "newHeaderValue": "*",
+        "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_ORIGIN"
+      }
+    },
+    {
+      "name": "modifyOutgoingResponseHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": true,
+        "newHeaderValue": "GET,HEAD,PUT,POST,DELETE,OPTIONS",
+        "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_METHODS"
+      }
+    },
+    {
+      "name": "modifyOutgoingResponseHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": true,
+        "newHeaderValue": "*",
+        "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_HEADERS"
+      }
+    },
+    {
+      "name": "modifyOutgoingResponseHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": true,
+        "newHeaderValue": "86400",
+        "standardModifyHeaderName": "ACCESS_CONTROL_MAX_AGE"
+      }
+    },
+    {
+      "name": "modifyOutgoingResponseHeader",
+      "options": {
+        "action": "MODIFY",
+        "avoidDuplicateHeaders": true,
+        "newHeaderValue": "false",
+        "standardModifyHeaderName": "ACCESS_CONTROL_ALLOW_CREDENTIALS"
+      }
+    }
+  ],
+  "name": "CORS",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

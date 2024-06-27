@@ -1,0 +1,68 @@
+{
+  "behaviors": [
+    {
+      "name": "datastream",
+      "options": {
+        "logEnabled": true,
+        "logStreamName": [
+          "14635"
+        ],
+        "logStreamTitle": "",
+        "samplingPercentage": 100,
+        "streamType": "LOG"
+      }
+    },
+    {
+      "name": "report",
+      "options": {
+        "customLogField": "{{builtin.AK_CLIENT_REAL_IP}}",
+        "logAcceptLanguage": true,
+        "logCookies": "OFF",
+        "logCustomLogField": true,
+        "logEdgeIP": false,
+        "logHost": true,
+        "logReferer": true,
+        "logUserAgent": true,
+        "logXForwardedFor": false
+      }
+    }
+  ],
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "report",
+          "options": {
+            "customLogField": "{{user.PMUSER_TRUE_CLIENT_IP_CUSTOM}}",
+            "logAcceptLanguage": true,
+            "logCookies": "OFF",
+            "logCustomLogField": true,
+            "logEdgeIP": false,
+            "logHost": true,
+            "logReferer": true,
+            "logUserAgent": true,
+            "logXForwardedFor": false
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "matchVariable",
+          "options": {
+            "matchCaseSensitive": true,
+            "matchOperator": "IS",
+            "matchWildcard": false,
+            "variableExpression": "true",
+            "variableName": "PMUSER_IS_FNI"
+          }
+        }
+      ],
+      "name": "FNI Client IP logging",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "name": "Datastream",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

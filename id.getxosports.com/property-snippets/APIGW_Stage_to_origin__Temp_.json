@@ -1,0 +1,28 @@
+{
+  "behaviors": [
+    {
+      "name": "rewriteUrl",
+      "options": {
+        "behavior": "PREPEND",
+        "keepQueryString": true,
+        "targetPathPrepend": "/default/"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "name": "path",
+      "options": {
+        "matchCaseSensitive": false,
+        "matchOperator": "DOES_NOT_MATCH_ONE_OF",
+        "normalize": false,
+        "values": [
+          "/default/*"
+        ]
+      }
+    }
+  ],
+  "name": "APIGW Stage to origin (Temp)",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

@@ -1,0 +1,101 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "dnsAsyncRefresh",
+          "options": {
+            "enabled": true,
+            "timeout": "1h"
+          }
+        },
+        {
+          "name": "timeout",
+          "options": {
+            "value": "5s"
+          }
+        },
+        {
+          "name": "readTimeout",
+          "options": {
+            "value": "5s"
+          }
+        }
+      ],
+      "comments": "Optimize the connection between edge and origin.",
+      "name": "Origin connectivity",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "http3",
+          "options": {
+            "enable": true
+          }
+        },
+        {
+          "name": "http2",
+          "options": {
+            "enabled": ""
+          }
+        },
+        {
+          "name": "allowTransferEncoding",
+          "options": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "sureRoute",
+          "options": {
+            "enableCustomKey": false,
+            "enabled": true,
+            "forceSslForward": false,
+            "raceStatTtl": "30m",
+            "srDownloadLinkTitle": "",
+            "testObjectUrl": "/akamai/sureroute-test-object.html",
+            "toHostStatus": "INCOMING_HH",
+            "type": "PERFORMANCE"
+          }
+        }
+      ],
+      "comments": "Serve your website using modern and fast protocols.",
+      "name": "Protocol optimizations",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "constructResponse",
+          "options": {
+            "body": "\u003c!DOCTYPE html\u003e\n\u003chtml lang=en\u003e\u003c/html\u003e",
+            "enabled": true,
+            "forceEviction": false,
+            "ignorePurge": false,
+            "responseCode": 200
+          }
+        }
+      ],
+      "comments": "Automatically and continuously apply performance optimizations to your website using machine learning.",
+      "criteria": [
+        {
+          "name": "requestMethod",
+          "options": {
+            "matchOperator": "IS",
+            "value": "OPTIONS"
+          }
+        }
+      ],
+      "name": "Options Response",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Control the settings related to improving the performance of delivering objects to your users.",
+  "name": "Accelerate delivery",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

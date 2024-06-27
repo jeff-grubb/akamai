@@ -1,0 +1,122 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "origin",
+          "options": {
+            "cacheKeyHostname": "ORIGIN_HOSTNAME",
+            "compress": true,
+            "customCertificateAuthorities": [],
+            "customCertificates": [],
+            "customValidCnValues": [
+              "{{Origin Hostname}}",
+              "{{Forward Host Header}}",
+              "*.qa1.api3.foxcpe.com"
+            ],
+            "enableTrueClientIp": true,
+            "forwardHostHeader": "ORIGIN_HOSTNAME",
+            "hostname": "dms-v1.qa1.api3.foxcpe.com",
+            "httpPort": 80,
+            "httpsPort": 443,
+            "ipVersion": "IPV4",
+            "minTlsVersion": "DYNAMIC",
+            "originCertificate": "",
+            "originCertsToHonor": "COMBO",
+            "originSni": true,
+            "originType": "CUSTOMER",
+            "ports": "",
+            "standardCertificateAuthorities": [
+              "akamai-permissive",
+              "THIRD_PARTY_AMAZON"
+            ],
+            "trueClientIpClientSetting": false,
+            "trueClientIpHeader": "True-Client-IP",
+            "verificationMode": "CUSTOM"
+          }
+        }
+      ],
+      "comments": "multi-pod routing configuration via automation",
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "*/fast-dr-circuit-breaker",
+              "*/platform-routing-policy",
+              "*/platform-routing-policies",
+              "*/ns1-record",
+              "*/ns1-shield-records",
+              "*/shield-regions",
+              "*/mcl-region-toggle"
+            ]
+          }
+        }
+      ],
+      "name": "dms_v1",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "origin",
+          "options": {
+            "cacheKeyHostname": "ORIGIN_HOSTNAME",
+            "compress": true,
+            "customCertificateAuthorities": [],
+            "customCertificates": [],
+            "customValidCnValues": [
+              "{{Origin Hostname}}",
+              "{{Forward Host Header}}",
+              "*.qa1.api3.foxcpe.com"
+            ],
+            "enableTrueClientIp": true,
+            "forwardHostHeader": "ORIGIN_HOSTNAME",
+            "hostname": "fvts-v1.qa1.api3.foxcpe.com",
+            "httpPort": 80,
+            "httpsPort": 443,
+            "ipVersion": "IPV4",
+            "minTlsVersion": "DYNAMIC",
+            "originCertificate": "",
+            "originCertsToHonor": "COMBO",
+            "originSni": true,
+            "originType": "CUSTOMER",
+            "ports": "",
+            "standardCertificateAuthorities": [
+              "akamai-permissive",
+              "THIRD_PARTY_AMAZON"
+            ],
+            "trueClientIpClientSetting": false,
+            "trueClientIpHeader": "True-Client-IP",
+            "verificationMode": "CUSTOM"
+          }
+        }
+      ],
+      "comments": "multi-pod routing configuration via automation",
+      "criteria": [
+        {
+          "name": "path",
+          "options": {
+            "matchCaseSensitive": false,
+            "matchOperator": "MATCHES_ONE_OF",
+            "normalize": false,
+            "values": [
+              "*/tokenization-service/*"
+            ]
+          }
+        }
+      ],
+      "name": "fvts_v1",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Parent rule for all service-level multi-pod routing behaviors",
+  "name": "Multi-pod",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

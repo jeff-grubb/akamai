@@ -1,0 +1,26 @@
+{
+  "behaviors": [
+    {
+      "name": "redirect",
+      "options": {
+        "destinationHostname": "SAME_AS_REQUEST",
+        "destinationPath": "SAME_AS_REQUEST",
+        "destinationProtocol": "HTTPS",
+        "mobileDefaultChoice": "DEFAULT",
+        "queryString": "APPEND",
+        "responseCode": 302
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "name": "requestProtocol",
+      "options": {
+        "value": "HTTP"
+      }
+    }
+  ],
+  "name": "Redirect to HTTPS",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

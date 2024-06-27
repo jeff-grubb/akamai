@@ -1,0 +1,19 @@
+{
+  "behaviors": [
+    {
+      "name": "customBehavior",
+      "options": {
+        "behaviorId": "cbe_441401565"
+      }
+    },
+    {
+      "name": "customBehavior",
+      "options": {
+        "behaviorId": "cbe_448210161"
+      }
+    }
+  ],
+  "name": "SR4P + Maprule report",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

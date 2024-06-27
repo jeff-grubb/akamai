@@ -1,0 +1,19 @@
+{
+  "behaviors": [
+    {
+      "name": "datastream",
+      "options": {
+        "logEnabled": true,
+        "logStreamName": [
+          "66165"
+        ],
+        "logStreamTitle": "",
+        "samplingPercentage": 100,
+        "streamType": "LOG"
+      }
+    }
+  ],
+  "name": "DataStream Logging",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

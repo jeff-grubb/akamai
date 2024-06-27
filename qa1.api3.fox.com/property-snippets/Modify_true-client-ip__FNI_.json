@@ -1,0 +1,354 @@
+{
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "setVariable",
+          "options": {
+            "caseSensitive": false,
+            "extractLocation": "CLIENT_REQUEST_HEADER",
+            "globalSubstitution": false,
+            "headerName": "True-Client-IP",
+            "regex": "(\\d+)$",
+            "replacement": "0",
+            "transform": "SUBSTITUTE",
+            "valueSource": "EXTRACT",
+            "variableName": "PMUSER_TRUE_CLIENT_IP_CUSTOM"
+          }
+        },
+        {
+          "name": "modifyIncomingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": false,
+            "customHeaderName": "True-Client-IP",
+            "newHeaderValue": "{{user.PMUSER_TRUE_CLIENT_IP_CUSTOM}}",
+            "standardModifyHeaderName": "OTHER"
+          }
+        },
+        {
+          "name": "setVariable",
+          "options": {
+            "caseSensitive": false,
+            "extractLocation": "CLIENT_REQUEST_HEADER",
+            "globalSubstitution": false,
+            "headerName": "X-Forwarded-For",
+            "regex": "^(\\d+\\.\\d+\\.\\d+\\.)\\d+",
+            "replacement": "$1\\0",
+            "transform": "SUBSTITUTE",
+            "valueSource": "EXTRACT",
+            "variableName": "PMUSER_X_FORWARDED_FOR_CUSTOM"
+          }
+        },
+        {
+          "name": "modifyIncomingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": false,
+            "customHeaderName": "X-Forwarded-For",
+            "newHeaderValue": "{{user.PMUSER_X_FORWARDED_FOR_CUSTOM}}",
+            "standardModifyHeaderName": "OTHER"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestHeader",
+          "options": {
+            "headerName": "True-Client-IP",
+            "matchOperator": "EXISTS",
+            "matchWildcardName": false
+          }
+        }
+      ],
+      "name": "true-client-ip request header",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "setVariable",
+          "options": {
+            "caseSensitive": false,
+            "globalSubstitution": false,
+            "regex": "(\\d+)$",
+            "replacement": "0",
+            "transform": "SUBSTITUTE",
+            "valueSource": "EXPRESSION",
+            "variableName": "PMUSER_TRUE_CLIENT_IP_CUSTOM",
+            "variableValue": "{{builtin.AK_CLIENT_REAL_IP}}"
+          }
+        },
+        {
+          "name": "modifyIncomingRequestHeader",
+          "options": {
+            "action": "MODIFY",
+            "avoidDuplicateHeaders": false,
+            "customHeaderName": "True-Client-IP",
+            "newHeaderValue": "{{user.PMUSER_TRUE_CLIENT_IP_CUSTOM}}",
+            "standardModifyHeaderName": "OTHER"
+          }
+        }
+      ],
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "modifyOutgoingRequestHeader",
+              "options": {
+                "action": "MODIFY",
+                "avoidDuplicateHeaders": false,
+                "customHeaderName": "x-forwarded-for",
+                "newHeaderValue": "{{user.PMUSER_TRUE_CLIENT_IP_CUSTOM}}",
+                "standardModifyHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "requestHeader",
+              "options": {
+                "headerName": "x-forwarded-for",
+                "matchOperator": "DOES_NOT_EXIST",
+                "matchWildcardName": false
+              }
+            }
+          ],
+          "name": "x-forwarded-for",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestHeader",
+          "options": {
+            "headerName": "True-Client-IP",
+            "matchOperator": "DOES_NOT_EXIST",
+            "matchWildcardName": false
+          }
+        }
+      ],
+      "name": "client_real_ip builtin",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "modifyOutgoingRequestHeader",
+              "options": {
+                "action": "MODIFY",
+                "avoidDuplicateHeaders": false,
+                "customHeaderName": "x-user-dma",
+                "newHeaderValue": "intl",
+                "standardModifyHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "requestHeader",
+              "options": {
+                "headerName": "x-user-country-code",
+                "matchCaseSensitiveValue": true,
+                "matchOperator": "IS_NOT_ONE_OF",
+                "matchWildcardName": false,
+                "matchWildcardValue": false,
+                "values": [
+                  "US",
+                  "GU",
+                  "PR",
+                  "AS",
+                  "MP",
+                  "VI"
+                ]
+              }
+            }
+          ],
+          "name": "set x-user-dma override - intl",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "extractLocation": "EDGESCAPE",
+                "locationId": "DMA",
+                "transform": "NONE",
+                "valueSource": "EXTRACT",
+                "variableName": "PMUSER_X_USER_DMA"
+              }
+            },
+            {
+              "name": "modifyOutgoingRequestHeader",
+              "options": {
+                "action": "MODIFY",
+                "avoidDuplicateHeaders": false,
+                "customHeaderName": "x-user-dma",
+                "newHeaderValue": "{{user.PMUSER_X_USER_DMA}}",
+                "standardModifyHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "requestHeader",
+              "options": {
+                "headerName": "x-user-country-code",
+                "matchCaseSensitiveValue": true,
+                "matchOperator": "IS_ONE_OF",
+                "matchWildcardName": false,
+                "matchWildcardValue": false,
+                "values": [
+                  "US",
+                  "GU",
+                  "PR",
+                  "AS",
+                  "MP",
+                  "VI"
+                ]
+              }
+            }
+          ],
+          "name": "set x-user-dma override - USA",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestHeader",
+          "options": {
+            "headerName": "x-user-country-code",
+            "matchOperator": "EXISTS",
+            "matchWildcardName": false
+          }
+        }
+      ],
+      "name": "x-user-country-code exists",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "modifyOutgoingRequestHeader",
+              "options": {
+                "action": "MODIFY",
+                "avoidDuplicateHeaders": false,
+                "customHeaderName": "x-user-dma",
+                "newHeaderValue": "intl",
+                "standardModifyHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "userLocation",
+              "options": {
+                "checkIps": "BOTH",
+                "countryValues": [
+                  "US",
+                  "GU",
+                  "PR",
+                  "AS",
+                  "MP",
+                  "VI"
+                ],
+                "field": "COUNTRY",
+                "matchOperator": "IS_NOT_ONE_OF",
+                "useOnlyFirstXForwardedForIp": false
+              }
+            }
+          ],
+          "name": "x-user-dma for FNI - intl",
+          "options": {},
+          "criteriaMustSatisfy": "any"
+        },
+        {
+          "behaviors": [
+            {
+              "name": "setVariable",
+              "options": {
+                "extractLocation": "EDGESCAPE",
+                "locationId": "DMA",
+                "transform": "NONE",
+                "valueSource": "EXTRACT",
+                "variableName": "PMUSER_X_USER_DMA"
+              }
+            },
+            {
+              "name": "modifyOutgoingRequestHeader",
+              "options": {
+                "action": "MODIFY",
+                "avoidDuplicateHeaders": false,
+                "customHeaderName": "x-user-dma",
+                "newHeaderValue": "{{user.PMUSER_X_USER_DMA}}",
+                "standardModifyHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "userLocation",
+              "options": {
+                "checkIps": "BOTH",
+                "countryValues": [
+                  "US",
+                  "GU",
+                  "PR",
+                  "AS",
+                  "MP",
+                  "VI"
+                ],
+                "field": "COUNTRY",
+                "matchOperator": "IS_ONE_OF",
+                "useOnlyFirstXForwardedForIp": false
+              }
+            }
+          ],
+          "name": "set x-user-dma for FNI - USA",
+          "options": {},
+          "criteriaMustSatisfy": "any"
+        }
+      ],
+      "criteria": [
+        {
+          "name": "requestHeader",
+          "options": {
+            "headerName": "x-user-country-code",
+            "matchOperator": "DOES_NOT_EXIST",
+            "matchWildcardName": false
+          }
+        }
+      ],
+      "name": "x-user-country-code doesn't exist",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "FOX News International API keys need to have last octet stripped out from true client ip",
+  "criteria": [
+    {
+      "name": "matchVariable",
+      "options": {
+        "matchCaseSensitive": true,
+        "matchOperator": "IS",
+        "matchWildcard": false,
+        "variableExpression": "true",
+        "variableName": "PMUSER_IS_FNI"
+      }
+    }
+  ],
+  "name": "Modify true-client-ip (FNI)",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

@@ -1,0 +1,109 @@
+{
+  "behaviors": [
+    {
+      "name": "caching",
+      "options": {
+        "behavior": "NO_STORE"
+      }
+    },
+    {
+      "name": "validateEntityTag",
+      "options": {
+        "enabled": false
+      }
+    },
+    {
+      "name": "removeVary",
+      "options": {
+        "enabled": false
+      }
+    },
+    {
+      "name": "cacheError",
+      "options": {
+        "enabled": true,
+        "preserveStale": true,
+        "ttl": "10s"
+      }
+    },
+    {
+      "name": "cacheKeyQueryParams",
+      "options": {
+        "behavior": "INCLUDE_ALL_ALPHABETIZE_ORDER"
+      }
+    },
+    {
+      "name": "prefreshCache",
+      "options": {
+        "enabled": true,
+        "prefreshval": 90
+      }
+    },
+    {
+      "name": "downstreamCache",
+      "options": {
+        "allowBehavior": "LESSER",
+        "behavior": "ALLOW",
+        "sendHeaders": "CACHE_CONTROL",
+        "sendPrivate": false
+      }
+    }
+  ],
+  "children": [
+    {
+      "behaviors": [
+        {
+          "name": "cacheRedirect",
+          "options": {
+            "enabled": "false"
+          }
+        }
+      ],
+      "comments": "Configure caching for HTTP redirects. The redirect is cached for the same TTL as a 200 HTTP response when this feature is enabled.",
+      "name": "Redirects",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "cachePost",
+          "options": {
+            "enabled": false
+          }
+        }
+      ],
+      "comments": "Define when HTTP POST requests should be cached. You should enable it under a criteria match.",
+      "name": "POST responses",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    },
+    {
+      "behaviors": [
+        {
+          "name": "downstreamCache",
+          "options": {
+            "behavior": "BUST"
+          }
+        }
+      ],
+      "comments": "Configure the default client caching behavior for uncacheable content at the edge.",
+      "criteria": [
+        {
+          "name": "cacheability",
+          "options": {
+            "matchOperator": "IS_NOT",
+            "value": "CACHEABLE"
+          }
+        }
+      ],
+      "name": "Uncacheable objects",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "comments": "Control the settings related to caching content at the edge and in the browser. As a result, fewer requests go to your origin, fewer bytes leave your data centers, and your assets are closer to your users.",
+  "name": "Offload origin",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}

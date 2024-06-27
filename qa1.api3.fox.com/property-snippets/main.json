@@ -1,0 +1,201 @@
+{
+  "accountId": "act_1-H78TP",
+  "contractId": "ctr_3-9I38ZU",
+  "groupId": "grp_21681",
+  "propertyId": "prp_541586",
+  "propertyVersion": 238,
+  "etag": "94e84ad98aea3efc47f6004c6b0c715dc8991216",
+  "ruleFormat": "latest",
+  "comments": "Fixing /v3 request method for account accountops",
+  "rules": {
+    "name": "default",
+    "behaviors": [
+      {
+        "name": "origin",
+        "options": {
+          "cacheKeyHostname": "ORIGIN_HOSTNAME",
+          "compress": true,
+          "customCertificateAuthorities": [],
+          "customCertificates": [],
+          "customValidCnValues": [
+            "{{Origin Hostname}}",
+            "{{Forward Host Header}}",
+            "qa.api2.fox.com",
+            "*.qa.api2.foxdcg.com"
+          ],
+          "enableTrueClientIp": true,
+          "forwardHostHeader": "ORIGIN_HOSTNAME",
+          "hostname": "us-west-2.qa1.api3.foxcpe.com",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "ipVersion": "IPV4",
+          "minTlsVersion": "DYNAMIC",
+          "originCertificate": "",
+          "originCertsToHonor": "COMBO",
+          "originSni": true,
+          "originType": "CUSTOMER",
+          "ports": "",
+          "standardCertificateAuthorities": [
+            "akamai-permissive",
+            "THIRD_PARTY_AMAZON"
+          ],
+          "tlsVersionTitle": "",
+          "trueClientIpClientSetting": false,
+          "trueClientIpHeader": "True-Client-IP",
+          "verificationMode": "CUSTOM"
+        }
+      },
+      {
+        "name": "cpCode",
+        "options": {
+          "value": {
+            "cpCodeLimits": {
+              "currentCapacity": 67,
+              "limit": 493,
+              "limitType": "account"
+            },
+            "createdDate": 1556532110000,
+            "description": "qa.api3.fox.com",
+            "id": 846779,
+            "name": "qa.api3.fox.com",
+            "products": [
+              "SPM"
+            ]
+          }
+        }
+      },
+      {
+        "name": "allowPost",
+        "options": {
+          "allowWithoutContentLength": false,
+          "enabled": true
+        }
+      },
+      {
+        "name": "edgeScape",
+        "options": {
+          "enabled": true
+        }
+      },
+      {
+        "name": "caching",
+        "options": {
+          "behavior": "NO_STORE"
+        }
+      },
+      {
+        "name": "allowPatch",
+        "options": {
+          "enabled": true
+        }
+      },
+      {
+        "name": "allowDelete",
+        "options": {
+          "allowBody": true,
+          "enabled": true
+        }
+      },
+      {
+        "name": "allowPut",
+        "options": {
+          "enabled": true
+        }
+      }
+    ],
+    "children": [
+      "#include:FMP_for_uw2-1.json",
+      "#include:Is_Sports_Client.json",
+      "#include:qa-ml.fox.com_Rules.json",
+      "#include:Delta_Sunset.json",
+      "#include:Performance.json",
+      "#include:CORS_Support.json",
+      "#include:is_FNI.json",
+      "#include:x-user-dma.json",
+      "#include:x-user-country-code.json",
+      "#include:x-user-zip.json",
+      "#include:Modify_true-client-ip__FNI_.json",
+      "#include:Caching.json",
+      "#include:Datastream.json",
+      "#include:Multi-pod.json",
+      "#include:Redirect_to_HTTPS.json"
+    ],
+    "comments": "The behaviors in the Default Rule apply to all requests for the property hostname(s) unless another rule overrides the Default Rule settings.",
+    "uuid": "default",
+    "variables": [
+      {
+        "description": "pass traffic to identity eks origin",
+        "hidden": true,
+        "name": "PMUSER_IDENTITY_EKS_ORIGIN",
+        "sensitive": false,
+        "value": "false"
+      },
+      {
+        "description": "value of the authorization header",
+        "hidden": true,
+        "name": "PMUSER_TEMP_AUTHORIZATION",
+        "sensitive": false,
+        "value": ""
+      },
+      {
+        "description": "true = dont allow path modification, false = allow",
+        "hidden": false,
+        "name": "PMUSER_DMA_SET",
+        "sensitive": false,
+        "value": "true"
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_IS_SPORTS_CLIENT",
+        "sensitive": false,
+        "value": "false"
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_X_USER_COUNTRY_CODE",
+        "sensitive": false,
+        "value": ""
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_TRUE_CLIENT_IP_CUSTOM",
+        "sensitive": false,
+        "value": ""
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_X_FORWARDED_FOR_CUSTOM",
+        "sensitive": false,
+        "value": ""
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_IS_FNI",
+        "sensitive": false,
+        "value": ""
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_X_USER_DMA",
+        "sensitive": false,
+        "value": ""
+      },
+      {
+        "description": "",
+        "hidden": false,
+        "name": "PMUSER_X_USER_ZIP",
+        "sensitive": false,
+        "value": ""
+      }
+    ],
+    "options": {
+      "is_secure": true
+    }
+  }
+}

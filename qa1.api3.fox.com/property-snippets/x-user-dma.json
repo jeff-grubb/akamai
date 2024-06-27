@@ -1,0 +1,40 @@
+{
+  "behaviors": [
+    {
+      "name": "advanced",
+      "options": {
+        "description": "x-user-dma",
+        "xml": "\u003c!-- mvpd geo related work --\u003e\n\u003c!-- If \"zip\" query string is not present we need to set DMA value --\u003e\n\u003cmatch:uri.query-string name=\"zip\" result=\"false\"\u003e\n\n    \u003c!-- turn off TD --\u003e\n    \u003cforward:cache-parent.status\u003eoff\u003c/forward:cache-parent.status\u003e\n\u003cassign:variable\u003e\n  \u003cname\u003eAKA_PM_BYPASS_TD\u003c/name\u003e\n  \u003cvalue\u003etrue\u003c/value\u003e\n\u003c/assign:variable\u003e\n\n\u003cassign:variable\u003e\n  \u003cname\u003eAKA_PM_BYPASS_SITESHIELD\u003c/name\u003e\n  \u003cvalue\u003etrue\u003c/value\u003e\n\u003c/assign:variable\u003e\n    \n\n  \u003cassign:extract-value\u003e\n    \u003clocation\u003eClient_Request_Header\u003c/location\u003e\n    \u003clocation-id\u003eX-User-Network-Type\u003c/location-id\u003e\n    \u003cvariable-name\u003eUSER_NWTYPE\u003c/variable-name\u003e\n  \u003c/assign:extract-value\u003e\n  \u003c!-- If undefined, use EdgeScape for USER_NWTYPE --\u003e\n  \u003cmatch:variable name=\"USER_NWTYPE\" value=\"?*\" result=\"false\" value-wildcard=\"on\"\u003e\n    \u003cassign:extract-value\u003e\n      \u003clocation\u003eEdgescape\u003c/location\u003e\n      \u003clocation-id\u003enetwork_type\u003c/location-id\u003e\n      \u003cvariable-name\u003eUSER_NWTYPE\u003c/variable-name\u003e\n    \u003c/assign:extract-value\u003e\n    \u003cedgeservices:modify-outgoing-request.add-header\u003e\n      \u003cstatus\u003eon\u003c/status\u003e\n      \u003cname\u003eX-User-Network-Type\u003c/name\u003e\n      \u003cvalue\u003e%(USER_NWTYPE)\u003c/value\u003e\n    \u003c/edgeservices:modify-outgoing-request.add-header\u003e\n  \u003c/match:variable\u003e\n  \u003cassign:extract-value\u003e\n    \u003clocation\u003eClient_Request_Header\u003c/location\u003e\n    \u003clocation-id\u003eX-User-DMA\u003c/location-id\u003e\n    \u003cvariable-name\u003eUSER_DMA\u003c/variable-name\u003e\n  \u003c/assign:extract-value\u003e\n  \u003c!-- If undefined, use EdgeScape for USER_DMA --\u003e\n  \u003cmatch:variable name=\"USER_DMA\" value=\"?*\" result=\"false\" value-wildcard=\"on\"\u003e\n    \u003cassign:extract-value\u003e\n      \u003clocation\u003eEdgescape\u003c/location\u003e\n      \u003clocation-id\u003edma\u003c/location-id\u003e\n      \u003cvariable-name\u003eUSER_DMA\u003c/variable-name\u003e\n    \u003c/assign:extract-value\u003e\n\n    \u003c!-- special case for US territories. USVI, GU, PR, NMI and AS --\u003e\n    \u003c!-- override the DMA to 999 for these regions --\u003e\n    \u003cassign:extract-value\u003e\n      \u003clocation\u003eEdgescape\u003c/location\u003e\n      \u003clocation-id\u003ecountry_code\u003c/location-id\u003e\n      \u003cvariable-name\u003eCC\u003c/variable-name\u003e\n    \u003c/assign:extract-value\u003e\n\n     \u003cmatch:variable name=\"CC\" value=\"AS\" result=\"true\"\u003e\n     \u003cassign:variable\u003e\n       \u003cname\u003eUSER_DMA\u003c/name\u003e\n       \u003cvalue\u003eAS\u003c/value\u003e\n     \u003c/assign:variable\u003e\n   \u003c/match:variable\u003e\n   \u003cmatch:variable name=\"CC\" value=\"GU\" result=\"true\"\u003e\n     \u003cassign:variable\u003e\n       \u003cname\u003eUSER_DMA\u003c/name\u003e\n       \u003cvalue\u003eGU\u003c/value\u003e\n     \u003c/assign:variable\u003e\n   \u003c/match:variable\u003e\n  \u003cmatch:variable name=\"CC\" value=\"MP\" result=\"true\"\u003e\n     \u003cassign:variable\u003e\n       \u003cname\u003eUSER_DMA\u003c/name\u003e\n       \u003cvalue\u003eMP\u003c/value\u003e\n     \u003c/assign:variable\u003e\n   \u003c/match:variable\u003e\n  \u003cmatch:variable name=\"CC\" value=\"PR\" result=\"true\"\u003e\n     \u003cassign:variable\u003e\n       \u003cname\u003eUSER_DMA\u003c/name\u003e\n       \u003cvalue\u003ePR\u003c/value\u003e\n     \u003c/assign:variable\u003e\n   \u003c/match:variable\u003e\n  \u003cmatch:variable name=\"CC\" value=\"VI\" result=\"true\"\u003e\n     \u003cassign:variable\u003e\n       \u003cname\u003eUSER_DMA\u003c/name\u003e\n       \u003cvalue\u003eVI\u003c/value\u003e\n     \u003c/assign:variable\u003e\n   \u003c/match:variable\u003e\n  \u003c/match:variable\u003e\n\u003cedgeservices:modify-outgoing-request.remove-header\u003e\n     \u003cname\u003eX-User-DMA\u003c/name\u003e\n     \u003cstatus\u003eon\u003c/status\u003e\n\u003c/edgeservices:modify-outgoing-request.remove-header\u003e\n\u003cedgeservices:modify-outgoing-request.add-header\u003e\n      \u003cstatus\u003eon\u003c/status\u003e\n      \u003cname\u003eX-User-DMA\u003c/name\u003e\n      \u003cvalue\u003e%(USER_DMA)\u003c/value\u003e\n  \u003c/edgeservices:modify-outgoing-request.add-header\u003e\n\n      \u003cassign:variable\u003e\n         \u003cname\u003ePMUSER_X_USER_DMA\u003c/name\u003e\n              \u003cvalue\u003e%(USER_DMA)\u003c/value\u003e\n         \u003c/assign:variable\u003e\n\n    \u003c!-- Disable any path re-write from Property Manager --\u003e\n    \u003cmatch:metadata-stage value=\"client-request\"\u003e\n      \u003cassign:variable\u003e\n        \u003cname\u003eAKA_PM_BYPASS_MODIFY_PATH\u003c/name\u003e\n        \u003cvalue\u003etrue\u003c/value\u003e\n      \u003c/assign:variable\u003e\n    \u003c/match:metadata-stage\u003e\n\n\u003cassign:variable\u003e\n  \u003cname\u003eTEMP_FORWARD_URL\u003c/name\u003e\n  \u003cvalue\u003e%(AK_URL)\u003c/value\u003e\n  \u003ctransform\u003e\n    \u003csubstitute\u003e\n      \u003cregex\u003e/v1/fbc-content\u003c/regex\u003e\n      \u003creplacement\u003e\u003c/replacement\u003e\n    \u003c/substitute\u003e\n  \u003c/transform\u003e\n\u003c/assign:variable\u003e\n\n    \u003c!-- Extract the outbound path --\u003e\n    \u003c!-- Create the forward path as AK_URL + modified query string --\u003e\n    \u003c!-- IF query string exists then append  --\u003e\n    \u003cmatch:variable name=\"AK_QUERY\" result=\"true\"\u003e\n      \u003cassign:variable\u003e\n        \u003cname\u003eFORWARD_URL\u003c/name\u003e\n        \u003cvalue\u003e%(TEMP_FORWARD_URL)\u0026amp;\u003c/value\u003e\n      \u003c/assign:variable\u003e\n    \u003c/match:variable\u003e\n    \u003c!-- If query string is empty then create --\u003e\n    \u003cmatch:variable name=\"AK_QUERY\" result=\"false\"\u003e\n      \u003cassign:variable\u003e\n        \u003cname\u003eFORWARD_URL\u003c/name\u003e\n        \u003cvalue\u003e%(TEMP_FORWARD_URL)?\u003c/value\u003e\n      \u003c/assign:variable\u003e\n    \u003c/match:variable\u003e\n    \u003c!-- modify the forward path to the DMA --\u003e\n    \u003cforward:modify-path.by-rule\u003e\n      \u003crule\u003e=%(FORWARD_URL)dma=%(USER_DMA)\u003c/rule\u003e\n      \u003cstatus\u003eon\u003c/status\u003e\n    \u003c/forward:modify-path.by-rule\u003e\n\u003c/match:uri.query-string\u003e\n"
+      },
+      "uuid": "2271a883-3882-41dd-a7cd-319c9cfe53c4"
+    }
+  ],
+  "criteria": [
+    {
+      "name": "matchVariable",
+      "options": {
+        "matchCaseSensitive": true,
+        "matchOperator": "IS_NOT",
+        "matchWildcard": false,
+        "variableExpression": "true",
+        "variableName": "PMUSER_IS_FNI"
+      }
+    },
+    {
+      "name": "matchVariable",
+      "options": {
+        "matchCaseSensitive": true,
+        "matchOperator": "IS_ONE_OF",
+        "matchWildcard": false,
+        "variableName": "PMUSER_DMA_SET",
+        "variableValues": [
+          "true"
+        ]
+      }
+    }
+  ],
+  "name": "x-user-dma",
+  "options": {},
+  "uuid": "153f2256-c30e-487e-9102-442ec9449421",
+  "criteriaMustSatisfy": "all"
+}
