@@ -97,6 +97,7 @@
     "children": [
       "#include:Dev_Origin.json",
       "#include:Stage_Origin.json",
+      "#include:V2_Rules.json",
       "#include:Accelerate_delivery.json",
       "#include:Offload_origin.json",
       "#include:Strengthen_security.json",
@@ -125,6 +126,20 @@
         "name": "PMUSER_DISABLE_CACHE",
         "sensitive": false,
         "value": "true"
+      },
+      {
+        "description": "value of the authorization header",
+        "hidden": true,
+        "name": "PMUSER_TEMP_AUTHORIZATION",
+        "sensitive": false,
+        "value": ""
+      },
+      {
+        "description": "handle v2 path logic",
+        "hidden": true,
+        "name": "PMUSER_V2_PATHS",
+        "sensitive": false,
+        "value": "false"
       }
     ],
     "options": {}

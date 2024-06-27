@@ -1,0 +1,3189 @@
+{
+  "behaviors": [
+    {
+      "name": "setVariable",
+      "options": {
+        "extractLocation": "CLIENT_REQUEST_HEADER",
+        "headerName": "authorization",
+        "transform": "NONE",
+        "valueSource": "EXTRACT",
+        "variableName": "PMUSER_TEMP_AUTHORIZATION"
+      }
+    }
+  ],
+  "children": [
+    {
+      "children": [
+        {
+          "behaviors": [
+            {
+              "name": "rewriteUrl",
+              "options": {
+                "behavior": "REPLACE",
+                "keepQueryString": true,
+                "match": "/v2.0/",
+                "matchMultiple": false,
+                "targetPath": "/jwt/v1/"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "transform": "NONE",
+                "valueSource": "EXPRESSION",
+                "variableName": "PMUSER_V2_PATHS",
+                "variableValue": "true"
+              }
+            },
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "customHeaderName": "x-identity-id",
+                "headerValue": "jwt",
+                "standardAddHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "path",
+              "options": {
+                "matchCaseSensitive": false,
+                "matchOperator": "MATCHES_ONE_OF",
+                "normalize": false,
+                "values": [
+                  "/v2.0/publickey/*"
+                ]
+              }
+            }
+          ],
+          "name": "jwt",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REGEX_REPLACE",
+                    "keepQueryString": true,
+                    "matchMultiple": false,
+                    "matchRegex": "\\/v2\\.0\\/login-idp",
+                    "targetRegex": "/fox-idp/v1/login"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "customHeaderName": "x-identity-id",
+                    "headerValue": "login-idp",
+                    "standardAddHeaderName": "OTHER"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/login-idp"
+                    ]
+                  }
+                },
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "login-idp",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REPLACE",
+                    "keepQueryString": true,
+                    "match": "/v2.0/oauth2/magiclink/",
+                    "matchMultiple": false,
+                    "targetPath": "/fox-idp/v1/oauth2/magiclink/"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "customHeaderName": "x-identity-id",
+                    "headerValue": "magiclink-code",
+                    "standardAddHeaderName": "OTHER"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/oauth2/magiclink/code"
+                    ]
+                  }
+                },
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "magiclink/code",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REPLACE",
+                    "keepQueryString": true,
+                    "match": "/v2.0/oauth2/magiclink/",
+                    "matchMultiple": false,
+                    "targetPath": "/fox-idp/v1/oauth2/magiclink/"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "customHeaderName": "x-identity-id",
+                    "headerValue": "magiclink-confirm",
+                    "standardAddHeaderName": "OTHER"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/oauth2/magiclink/confirm"
+                    ]
+                  }
+                },
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "GET"
+                  }
+                }
+              ],
+              "name": "magiclink/confirm",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REGEX_REPLACE",
+                    "keepQueryString": true,
+                    "matchMultiple": false,
+                    "matchRegex": "\\/v2\\.0\\/register-idp",
+                    "targetRegex": "/fox-idp/v1/register"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "customHeaderName": "x-identity-id",
+                    "headerValue": "register-idp",
+                    "standardAddHeaderName": "OTHER"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/register-idp"
+                    ]
+                  }
+                },
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "register-idp",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REGEX_REPLACE",
+                    "keepQueryString": true,
+                    "matchMultiple": false,
+                    "matchRegex": "\\/v2\\.0\\/profile\\/flags",
+                    "targetRegex": "/fox-idp/v1/profile/flags"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "customHeaderName": "x-identity-id",
+                    "headerValue": "profile-flags",
+                    "standardAddHeaderName": "OTHER"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/profile/flags"
+                    ]
+                  }
+                },
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "profile/flags",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "fox-idp",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REPLACE",
+                        "keepQueryString": true,
+                        "match": "/v2.0/",
+                        "matchMultiple": false,
+                        "targetPath": "/identityhydra/"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "identityhydra-oauth2-get",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/oauth2/auth",
+                          "/v2.0/oauth2/auth/requests/consent",
+                          "/v2.0/oauth2/auth/requests/login",
+                          "/v2.0/oauth2/auth/requests/logout",
+                          "/v2.0/.well-known/jwks.json",
+                          "/v2.0/.well-known/openid-configuration"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "paths",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "GET"
+                  }
+                }
+              ],
+              "name": "GET requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REPLACE",
+                        "keepQueryString": true,
+                        "match": "/v2.0/",
+                        "matchMultiple": false,
+                        "targetPath": "/identityhydra/"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "identityhydra-oauth2-put",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/oauth2/auth/requests/consent/accept",
+                          "/v2.0/oauth2/auth/requests/consent/reject",
+                          "/v2.0/oauth2/auth/requests/login/accept",
+                          "/v2.0/oauth2/auth/requests/login/reject",
+                          "/v2.0/oauth2/auth/requests/logout/accept",
+                          "/v2.0/oauth2/auth/requests/logout/reject"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "paths",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "PUT"
+                  }
+                }
+              ],
+              "name": "PUT requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REPLACE",
+                        "keepQueryString": true,
+                        "match": "/v2.0/",
+                        "matchMultiple": false,
+                        "targetPath": "/identityhydra/"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "identityhydra-oauth2-post",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/oauth2/token"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "paths",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "POST requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "identityhydra",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/login",
+                        "targetRegex": "/account/login"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "login",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/login"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "login",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/register",
+                        "targetRegex": "/account/register"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "register",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/register"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "register",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/link",
+                        "targetRegex": "/account/link"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "link",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/link"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "link",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/unlink",
+                        "targetRegex": "/account/unlink"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "unlink",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/unlink"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "unlink",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/token\\/v2\\/",
+                        "targetRegex": "/account/token/v2/"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "tokenrefresh",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/token/v2/*"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "tokenrefresh",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/token\\/exchange\\/v2",
+                        "targetRegex": "/account/token/exchange/v2"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "tokenexchange",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/token/exchange/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "tokenexchange",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/login\\/v2",
+                        "targetRegex": "/account/login/v2"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "login_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/login/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "login_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/register\\/v2",
+                        "targetRegex": "/account/register/v2"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "register_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/register/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "register_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/link\\/v2",
+                        "targetRegex": "/account/link/v2"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "link_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/link/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "link_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/unlink\\/v2",
+                        "targetRegex": "/account/unlink/v2"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "unlink_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/unlink/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "unlink_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "POST requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/logout",
+                        "targetRegex": "/account/logout"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "logout",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/logout"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "logout",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/logout\\/v2",
+                        "targetRegex": "/account/logout/v2"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "logout_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/logout/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "logout_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "^\\/v2\\.0\\/update\\/([a-z|A-Z|0-9|:|-]+)",
+                        "targetRegex": "/account/update/$1"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountupdate_v1",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/update/*"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "DOES_NOT_MATCH_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/update/*/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "accountupdate_v1",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "^\\/v2\\.0\\/update\\/([a-z|A-Z|0-9|:|-]+)\\/v2",
+                        "targetRegex": "/account/update/$1/v2"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountupdate_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/update/*/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "accountupdate_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "GET"
+                  }
+                }
+              ],
+              "name": "GET requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/signout",
+                        "targetRegex": "/account/signout"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "signout",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/signout"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "signout",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/devicereg\\/sessions",
+                        "targetRegex": "/account/devicereg/sessions"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "deviceregsessions",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/devicereg/sessions"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "deviceregsessions",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "HTTP_DELETE"
+                  }
+                }
+              ],
+              "name": "DELETE requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "accountgo",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REPLACE",
+                    "keepQueryString": true,
+                    "match": "/v2.0/",
+                    "matchMultiple": false,
+                    "targetPath": "/pcs/v1/"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/pcs"
+                    ]
+                  }
+                }
+              ],
+              "name": "PCS",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REPLACE",
+                    "keepQueryString": true,
+                    "match": "/v2.0/pcs/",
+                    "matchMultiple": false,
+                    "targetPath": "/pcs/v1/"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/pcs/confirmpassword"
+                    ]
+                  }
+                }
+              ],
+              "name": "PCS - ConfirmPassword",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "pcs",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "^\\/v2\\.0\\/update\\/([a-z|A-Z|0-9|:|-]+)",
+                        "targetRegex": "/accountops/v1/account/$1"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountops_v1",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "requestMethod",
+                      "options": {
+                        "matchOperator": "IS",
+                        "value": "PUT"
+                      }
+                    },
+                    {
+                      "name": "requestMethod",
+                      "options": {
+                        "matchOperator": "IS",
+                        "value": "HTTP_DELETE"
+                      }
+                    }
+                  ],
+                  "name": "Request Methods v1",
+                  "options": {},
+                  "criteriaMustSatisfy": "any"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/update/*"
+                    ]
+                  }
+                },
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "DOES_NOT_MATCH_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/update/*/v*"
+                    ]
+                  }
+                }
+              ],
+              "name": "AccountOps - v1",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "^\\/v2\\.0\\/update\\/([a-z|A-Z|0-9|:|-]+)\\/v2",
+                        "targetRegex": "/accountops/v2/account/$1"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountops_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "requestMethod",
+                      "options": {
+                        "matchOperator": "IS",
+                        "value": "PUT"
+                      }
+                    },
+                    {
+                      "name": "requestMethod",
+                      "options": {
+                        "matchOperator": "IS",
+                        "value": "HTTP_DELETE"
+                      }
+                    }
+                  ],
+                  "name": "Request Methods v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "any"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/update/*/v2"
+                    ]
+                  }
+                }
+              ],
+              "name": "AccountOps - v2",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "^\\/v2\\.0\\/update\\/([a-z|A-Z|0-9|:|-]+)\\/v3",
+                        "targetRegex": "/accountops/v3/account/$1"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountops_v3",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "requestMethod",
+                      "options": {
+                        "matchOperator": "IS",
+                        "value": "PUT"
+                      }
+                    }
+                  ],
+                  "name": "Request Methods v3",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "path",
+                  "options": {
+                    "matchCaseSensitive": false,
+                    "matchOperator": "MATCHES_ONE_OF",
+                    "normalize": false,
+                    "values": [
+                      "/v2.0/update/*/v3"
+                    ]
+                  }
+                }
+              ],
+              "name": "AccountOps - v3",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "accountops",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REPLACE",
+                    "keepQueryString": true,
+                    "match": "/v2.0/",
+                    "matchMultiple": false,
+                    "targetPath": "/status/v1/"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "customHeaderName": "x-identity-id",
+                    "headerValue": "status_v1",
+                    "standardAddHeaderName": "OTHER"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "GET"
+                  }
+                }
+              ],
+              "name": "GET",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "behaviors": [
+                {
+                  "name": "rewriteUrl",
+                  "options": {
+                    "behavior": "REPLACE",
+                    "keepQueryString": true,
+                    "match": "/v2.0/",
+                    "matchMultiple": false,
+                    "targetPath": "/status/v2/"
+                  }
+                },
+                {
+                  "name": "modifyOutgoingResponseHeader",
+                  "options": {
+                    "action": "ADD",
+                    "customHeaderName": "x-identity-id",
+                    "headerValue": "status_v2",
+                    "standardAddHeaderName": "OTHER"
+                  }
+                },
+                {
+                  "name": "setVariable",
+                  "options": {
+                    "transform": "NONE",
+                    "valueSource": "EXPRESSION",
+                    "variableName": "PMUSER_V2_PATHS",
+                    "variableValue": "true"
+                  }
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "POST",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "criteria": [
+            {
+              "name": "path",
+              "options": {
+                "matchCaseSensitive": false,
+                "matchOperator": "MATCHES_ONE_OF",
+                "normalize": false,
+                "values": [
+                  "/v2.0/status"
+                ]
+              }
+            }
+          ],
+          "name": "status",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "behaviors": [
+            {
+              "name": "rewriteUrl",
+              "options": {
+                "behavior": "REPLACE",
+                "keepQueryString": true,
+                "match": "/v2.0/",
+                "matchMultiple": false,
+                "targetPath": "/regcode/v1/"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "transform": "NONE",
+                "valueSource": "EXPRESSION",
+                "variableName": "PMUSER_V2_PATHS",
+                "variableValue": "true"
+              }
+            },
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "customHeaderName": "x-identity-id",
+                "headerValue": "regcode-adoberegcode",
+                "standardAddHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "path",
+              "options": {
+                "matchCaseSensitive": false,
+                "matchOperator": "MATCHES_ONE_OF",
+                "normalize": false,
+                "values": [
+                  "/v2.0/adoberegcode"
+                ]
+              }
+            },
+            {
+              "name": "requestMethod",
+              "options": {
+                "matchOperator": "IS",
+                "value": "GET"
+              }
+            }
+          ],
+          "name": "regcode",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/",
+                        "targetRegex": "/accountemail/v1/"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountemail",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/email/send",
+                          "/v2.0/email/confirm"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "send/confirm",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "POST methods",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "accountemail",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_v1",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "accountregcode_v1",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode\\/v2",
+                        "targetRegex": "/accountregcode/v2/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "accountregcode_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_previewpass",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/previewpass"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "previewpass",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_deeplink",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/deeplink"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "deeplink",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_profile",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/*/profile"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "profile",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_status",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/*/status"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "status",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_cancel",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/*/cancel"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "cancel",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_poll",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/poll"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "poll",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode/poll/v2",
+                        "targetRegex": "/accountregcode/v2/accountregcode/poll"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_poll_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/poll/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "poll_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_jwt",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/jwt"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "jwt",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode/jwt/v2",
+                        "targetRegex": "/accountregcode/v2/accountregcode/jwt"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_jwt_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/jwt/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "jwt_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_mvpdlogin",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/*/mvpdlogin"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "mvpdlogin",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_mvpdclone",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/mvpdclone"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "mvpdclone",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode/v2",
+                        "targetRegex": "/accountregcode/v2/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_oath2_token",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/v2/oauth2/token"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "oauth2_token",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "POST requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            },
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/qr/regcode",
+                        "targetRegex": "/accountregcode/v1/qr/regcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode_qr_regcode",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/qr/regcode/*"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "qr_regcode",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/accountregcode",
+                        "targetRegex": "/accountregcode/v1/accountregcode"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "accountregcode",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/*"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "DOES_NOT_MATCH_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/accountregcode/*/*"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "accountregcode",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "GET"
+                  }
+                }
+              ],
+              "name": "GET requests",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "accountregcode",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/reset",
+                        "targetRegex": "/password/v1/reset"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "passwordservice_v1",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/reset"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "reset_v1",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/reset\\/v2",
+                        "targetRegex": "/password/v2/reset"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "passwordservice_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/reset/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "reset_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/reset-password",
+                        "targetRegex": "/password/v1/reset/confirm"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "passwordservice_confirm_v1",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/reset-password"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "reset_confirm_v1",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/reset-password\\/v2",
+                        "targetRegex": "/password/v2/reset/confirm"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "passwordservice_confirm_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/reset-password/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "reset_confirm_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "POST methods",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "password",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/prospect",
+                        "targetRegex": "/sendemail/v1/prospect"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "emailservice_v1",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/prospect"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "prospect_v1",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                },
+                {
+                  "behaviors": [
+                    {
+                      "name": "rewriteUrl",
+                      "options": {
+                        "behavior": "REGEX_REPLACE",
+                        "keepQueryString": true,
+                        "matchMultiple": false,
+                        "matchRegex": "\\/v2\\.0\\/prospect",
+                        "targetRegex": "/sendemail/v2/prospect"
+                      }
+                    },
+                    {
+                      "name": "setVariable",
+                      "options": {
+                        "transform": "NONE",
+                        "valueSource": "EXPRESSION",
+                        "variableName": "PMUSER_V2_PATHS",
+                        "variableValue": "true"
+                      }
+                    },
+                    {
+                      "name": "modifyOutgoingResponseHeader",
+                      "options": {
+                        "action": "ADD",
+                        "customHeaderName": "x-identity-id",
+                        "headerValue": "emailservice_v2",
+                        "standardAddHeaderName": "OTHER"
+                      }
+                    }
+                  ],
+                  "criteria": [
+                    {
+                      "name": "path",
+                      "options": {
+                        "matchCaseSensitive": false,
+                        "matchOperator": "MATCHES_ONE_OF",
+                        "normalize": false,
+                        "values": [
+                          "/v2.0/prospect/v2"
+                        ]
+                      }
+                    }
+                  ],
+                  "name": "prospect_v2",
+                  "options": {},
+                  "criteriaMustSatisfy": "all"
+                }
+              ],
+              "criteria": [
+                {
+                  "name": "requestMethod",
+                  "options": {
+                    "matchOperator": "IS",
+                    "value": "POST"
+                  }
+                }
+              ],
+              "name": "POST methods",
+              "options": {},
+              "criteriaMustSatisfy": "all"
+            }
+          ],
+          "name": "emailservice",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "behaviors": [
+            {
+              "name": "rewriteUrl",
+              "options": {
+                "behavior": "REPLACE",
+                "keepQueryString": true,
+                "match": "/v2.0/",
+                "matchMultiple": false,
+                "targetPath": "/fox-idp/v1/"
+              }
+            },
+            {
+              "name": "setVariable",
+              "options": {
+                "transform": "NONE",
+                "valueSource": "EXPRESSION",
+                "variableName": "PMUSER_V2_PATHS",
+                "variableValue": "true"
+              }
+            },
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "customHeaderName": "x-identity-id",
+                "headerValue": "ml",
+                "standardAddHeaderName": "OTHER"
+              }
+            }
+          ],
+          "criteria": [
+            {
+              "name": "path",
+              "options": {
+                "matchCaseSensitive": false,
+                "matchOperator": "MATCHES_ONE_OF",
+                "normalize": false,
+                "values": [
+                  "/v2.0/oauth2/magiclink/code"
+                ]
+              }
+            }
+          ],
+          "name": "magiclink",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        },
+        {
+          "behaviors": [
+            {
+              "name": "modifyOutgoingRequestHeader",
+              "options": {
+                "action": "ADD",
+                "customHeaderName": "x-access-token",
+                "headerValue": "{{user.PMUSER_TEMP_AUTHORIZATION}}",
+                "standardAddHeaderName": "OTHER"
+              }
+            },
+            {
+              "name": "modifyOutgoingRequestHeader",
+              "options": {
+                "action": "DELETE",
+                "customHeaderName": "authorization",
+                "standardDeleteHeaderName": "OTHER"
+              }
+            },
+            {
+              "name": "modifyOutgoingResponseHeader",
+              "options": {
+                "action": "ADD",
+                "customHeaderName": "x-identity-route",
+                "headerValue": "identity",
+                "standardAddHeaderName": "OTHER"
+              }
+            }
+          ],
+          "comments": "Do we pass the traffic to the Identity EKS origin?",
+          "criteria": [
+            {
+              "name": "matchVariable",
+              "options": {
+                "matchCaseSensitive": true,
+                "matchOperator": "IS",
+                "matchWildcard": false,
+                "variableExpression": "true",
+                "variableName": "PMUSER_V2_PATHS"
+              }
+            }
+          ],
+          "name": "Identity EKS Origin",
+          "options": {},
+          "criteriaMustSatisfy": "all"
+        }
+      ],
+      "name": "Identity EKS",
+      "options": {},
+      "criteriaMustSatisfy": "all"
+    }
+  ],
+  "name": "Delta Sunset",
+  "options": {},
+  "criteriaMustSatisfy": "all"
+}
