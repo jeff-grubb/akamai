@@ -1,0 +1,79 @@
+{
+  "name": "Locator Public IP",
+  "children": [
+    {
+      "name": "Append",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "rewriteUrl",
+          "options": {
+            "behavior": "REWRITE",
+            "targetUrl": "{{builtin.AK_URL}}&publicIP={{builtin.AK_CLIENT_REAL_IP}}"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "matchVariable",
+          "options": {
+            "matchOperator": "IS_NOT_EMPTY",
+            "variableName": "PMUSER_QS_PARAMS"
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    },
+    {
+      "name": "Create",
+      "children": [],
+      "behaviors": [
+        {
+          "name": "rewriteUrl",
+          "options": {
+            "behavior": "REWRITE",
+            "targetUrl": "{{builtin.AK_URL}}?publicIP={{builtin.AK_CLIENT_REAL_IP}}"
+          }
+        }
+      ],
+      "criteria": [
+        {
+          "name": "matchVariable",
+          "options": {
+            "matchOperator": "IS_EMPTY",
+            "variableName": "PMUSER_QS_PARAMS"
+          }
+        }
+      ],
+      "criteriaMustSatisfy": "all",
+      "comments": ""
+    }
+  ],
+  "behaviors": [
+    {
+      "name": "setVariable",
+      "options": {
+        "valueSource": "EXPRESSION",
+        "transform": "NONE",
+        "variableName": "PMUSER_QS_PARAMS",
+        "variableValue": "{{builtin.AK_QUERY}}"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "name": "path",
+      "options": {
+        "matchOperator": "MATCHES_ONE_OF",
+        "matchCaseSensitive": false,
+        "normalize": false,
+        "values": [
+          "/locator/v1/location*"
+        ]
+      }
+    }
+  ],
+  "criteriaMustSatisfy": "all",
+  "comments": ""
+}
