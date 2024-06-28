@@ -65,19 +65,19 @@ resource "akamai_property" "id-venu-com" {
 # NOTE: Be careful when removing this resource as you can disable traffic
 resource "akamai_property_activation" "id-venu-com-staging" {
   property_id                    = akamai_property.id-venu-com.id
-  contact                        = ["jeff.grubb@fox.com", "ipogakul@akamai.com"]
+  contact                        = ["jeff.grubb@fox.com"]
   version                        = var.activate_latest_on_staging ? akamai_property.id-venu-com.latest_version : akamai_property.id-venu-com.staging_version
   network                        = "STAGING"
-  note                           = "Fixing Access-Control-Allow-Methods header response"
-  auto_acknowledge_rule_warnings = false
+  note                           = var.version_note
+  auto_acknowledge_rule_warnings = true
 }
 
 # NOTE: Be careful when removing this resource as you can disable traffic
 resource "akamai_property_activation" "id-venu-com-production" {
   property_id                    = akamai_property.id-venu-com.id
-  contact                        = ["jeff.grubb@fox.com", "ipogakul@akamai.com"]
+  contact                        = ["jeff.grubb@fox.com"]
   version                        = var.activate_latest_on_production ? akamai_property.id-venu-com.latest_version : akamai_property.id-venu-com.production_version
   network                        = "PRODUCTION"
-  note                           = "Fixing Access-Control-Allow-Methods header response"
-  auto_acknowledge_rule_warnings = false
+  note                           = var.version_note
+  auto_acknowledge_rule_warnings = true
 }

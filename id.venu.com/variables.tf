@@ -27,3 +27,7 @@ variable "activate_latest_on_production" {
   type    = bool
   default = true
 }
+
+variable "version_note" {
+  type = string
+}
